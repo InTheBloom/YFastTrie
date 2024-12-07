@@ -1,2 +1,5 @@
 # YFastTrie
-YFastTrie written in D
+
+みんなのデータ構造(Pat Morin著、堀江慧、陣内佑、田中康隆訳、ラムダノート)を主な情報として利用。
+
+作成中。
