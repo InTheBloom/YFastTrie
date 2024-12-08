@@ -1,9 +1,9 @@
 import inthebloom;
-import std.stdio;
+import std;
 
 void main () {
     writeln("hello world");
 
-    SSet x;
-    USet y;
+    SortedSet x;
+    auto y = new NonNegativeKeyChainedHashTable!(Tuple!(uint, int))();
 }

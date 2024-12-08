@@ -1,4 +1,4 @@
 module inthebloom.sorted_set.interfaces;
 
-interface SSet {
+interface SortedSet {
 };
