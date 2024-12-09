@@ -97,7 +97,7 @@ struct SinglyLinkedList (T) {
         return size;
     }
 
-    auto input_range () {
+    auto ptr_input_range () {
         struct SinglyLinkedListRange (T) {
             // input range
             node_ptr_type head = null;
@@ -114,11 +114,11 @@ struct SinglyLinkedList (T) {
                 return size == 0;
             }
 
-            T front () {
+            T* front () {
                 if (size == 0) {
                     throw new EmptyListException("Cannot access front element from an empty list.");
                 }
-                return head.value;
+                return &head.value;
             }
             void popFront () {
                 if (size == 0) {

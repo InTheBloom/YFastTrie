@@ -5,6 +5,6 @@ interface UnorderedSet (T)
 {
     size_t length ();
     bool insert (T x);
-    bool remove (T x);
-    T find (T x);
+    bool remove (keytype) (keytype x);
+    T* find (keytype) (keytype x);
 };
