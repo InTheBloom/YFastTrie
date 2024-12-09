@@ -12,38 +12,35 @@ void main () {
     }
 
     auto testfiles = dirEntries(target, SpanMode.shallow).filter!((e) => e.name.endsWith(testfile_suffix) && e.isFile()).array;
-    Pid[] pids;
-    File[] outputs, errors;
-    foreach (testfile; testfiles) {
+
+    auto status = new int[](testfiles.length);
+    auto outputs = new string[](testfiles.length);
+    auto errors = new string[](testfiles.length);
+    foreach (i, testfile; testfiles.enumerate(0)) {
         writefln("enqueue test: %s", testfile.name);
         auto o = File(randomUUID().toString(), "w");
         auto e = File(randomUUID().toString(), "w");
-        scope(exit) o.name.remove();
-        scope(exit) e.name.remove();
+        scope(exit) {
+            outputs[i] = readText(o.name);
+            o.name.remove();
+
+            errors[i] = readText(e.name);
+            e.name.remove();
+        }
         auto pid = spawnProcess(["rdmd", "-unittest", "-main", testfile.name], stdin, o, e);
-        scope(exit) wait(pid);
-        pids ~= pid;
-        outputs ~= o;
-        errors ~= e;
+        scope(exit) status[i] = wait(pid);
     }
 
-    foreach (i, pid; pids) {
-        auto res = wait(pid);
-        if (res == 0) {
+    foreach (i; 0..testfiles.length) {
+        if (status[i] == 0) {
             writefln("verdict OK: %s", testfiles[i].name);
             continue;
         }
 
         writefln("verdict NG: %s", testfiles[i].name);
         writeln("stdout:");
-        outputs[i].open(outputs[i].name, "r");
-        if (!outputs[i].eof) {
-            outputs[i].byLine.each!writeln;
-        }
+        writeln(outputs[i]);
         writeln("stderr:");
-        errors[i].open(errors[i].name, "r");
-        if (!errors[i].eof) {
-            errors[i].byLine.each!writeln;
-        }
+        writeln(errors[i]);
     }
 }

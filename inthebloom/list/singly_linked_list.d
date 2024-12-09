@@ -102,6 +102,12 @@ struct SinglyLinkedList (T) {
             // input range
             node_ptr_type head = null;
             size_t size = 0;
+            size_t pos = 0;
+
+            @property
+            size_t position () {
+                return pos;
+            }
 
             @property
             bool empty () {
@@ -120,6 +126,7 @@ struct SinglyLinkedList (T) {
                 }
                 head = head.next;
                 size--;
+                pos++;
             }
         }
 
