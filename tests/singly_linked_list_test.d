@@ -1,10 +1,5 @@
-void main () {
-}
-
 unittest {
-    import std.random;
-    import std.range;
-    import std.algorithm;
+    import std;
     import inthebloom.list;
     auto slist = SinglyLinkedList!(int)();
 
@@ -21,9 +16,8 @@ unittest {
         swap(i, j);
     }
 
-    foreach (v; rem) {
-        assert(slist.has_equal_value_node(v));
-        slist.remove_first_equal_value_node(v);
-        assert(!slist.has_equal_value_node(v));
-    }
+    writeln(slist.input_range());
+    slist.remove_kth(N - 1);
+    slist.remove_kth(N - 2);
+    writeln(slist.input_range());
 }

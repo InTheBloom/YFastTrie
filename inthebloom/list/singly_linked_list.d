@@ -1,6 +1,11 @@
 module inthebloom.list.singly_linked_list;
 
-class EmptyListException : Exception {
+class EmptyListException: Exception {
+    import std.exception: basicExceptionCtors;
+    mixin basicExceptionCtors;
+}
+
+class ListSizeExceededException: Exception {
     import std.exception: basicExceptionCtors;
     mixin basicExceptionCtors;
 }
@@ -58,45 +63,66 @@ struct SinglyLinkedList (T) {
         head = head.next;
     }
 
-    bool has_equal_value_node (T value) {
-        node_ptr_type cur = head;
-        while (cur != null) {
-            if (cur.value == value) return true;
+    void remove_kth (size_t k) {
+        if (size <= k) {
+            import std.format: format;
+            throw new ListSizeExceededException(format("Attempted to access index k = %s, but the list has only %s elements.", k, size));
+        }
+        node_ptr_type pre = null, cur = head;
+        foreach (i; 0..k) {
+            pre = cur;
             cur = cur.next;
         }
-        return false;
-    }
 
-    bool remove_first_equal_value_node (T value) {
-        node_ptr_type pre = null, cur = head;
-        while (cur != null) {
-            if (cur.value != value) {
-                pre = cur;
-                cur = cur.next;
-                continue;
-            }
-            size--;
-            if (cur == head && cur == tail) {
-                head = null, tail = null;
-                return true;
-            }
-            if (cur == head) {
-                head = head.next;
-                return true;
-            }
-            if (cur == tail) {
-                tail = pre;
-                return true;
-            }
-
-            pre.next = head.next;
-            return true;
+        size--;
+        if (cur == head && cur == tail) {
+            head = null, tail = null;
+            return;
         }
-        return false;
+        if (cur == head) {
+            head = head.next;
+            return;
+        }
+        if (cur == tail) {
+            tail = pre;
+            tail.next = null;
+            return;
+        }
+
+        pre.next = cur.next;
     }
 
     @property
     size_t length () {
         return size;
+    }
+
+    auto input_range () {
+        struct SinglyLinkedListRange (T) {
+            // input range
+            node_ptr_type head = null;
+            size_t size = 0;
+
+            @property
+            bool empty () {
+                return size == 0;
+            }
+
+            T front () {
+                if (size == 0) {
+                    throw new EmptyListException("Cannot access front element from an empty list.");
+                }
+                return head.value;
+            }
+            void popFront () {
+                if (size == 0) {
+                    throw new EmptyListException("Cannot remove an element from an empty list.");
+                }
+                head = head.next;
+                size--;
+            }
+        }
+
+        return SinglyLinkedListRange!(T)(head, size);
     }
 }
