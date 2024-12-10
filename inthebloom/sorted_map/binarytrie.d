@@ -68,11 +68,13 @@ class BinaryTrie (K, V): SortedMap!(K, V)
         node_ptr to_end = cur;
         while (level < wordsize) {
             if (((x >> (wordsize - level - 1)) & 1) == 0) {
-                to_end.left = new node(parent: to_end);
+                to_end.left = new node();
+                to_end.left.parent = to_end;
                 to_end = to_end.left;
             }
             else {
-                to_end.right = new node(parent: to_end);
+                to_end.right = new node();
+                to_end.right.parent = to_end;
                 to_end = to_end.right;
             }
             level++;
