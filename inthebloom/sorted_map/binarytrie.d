@@ -180,7 +180,7 @@ class BinaryTrie (K, V): SortedMap!(K, V)
             to_root = to_root.parent;
             level--;
             if (to_root.jump != cur) continue;
-            if (((x >> (wordsize - level - 1)) & 1) == 0) {
+            if (to_root.left == null) {
                 to_root.jump = cur.next;
             }
             else {
