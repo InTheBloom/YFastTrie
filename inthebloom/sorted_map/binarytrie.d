@@ -1,1 +1,1 @@
-module inthebloom.sorted_set.binarytrie;
+module inthebloom.sorted_map.binarytrie;

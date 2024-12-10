@@ -1,1 +1,1 @@
-module inthebloom.sorted_set.treap;
+module inthebloom.sorted_map.treap;

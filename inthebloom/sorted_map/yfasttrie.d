@@ -1,1 +1,1 @@
-module inthebloom.sorted_set.yfasttrie;
+module inthebloom.sorted_map.yfasttrie;

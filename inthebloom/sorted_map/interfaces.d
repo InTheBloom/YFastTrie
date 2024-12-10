@@ -1,4 +1,4 @@
-module inthebloom.sorted_set.interfaces;
+module inthebloom.sorted_Map.interfaces;
 
-interface SortedSet {
+interface SortedMap {
 };
