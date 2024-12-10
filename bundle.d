@@ -3,6 +3,7 @@
 import std;
 
 string libdir = "inthebloom";
+string output_dir = "onlinejudge";
 string output_name = "combined.d";
 
 int main () {
@@ -15,7 +16,7 @@ int main () {
     }
 
     auto src = dirEntries(target, SpanMode.depth).filter!((e) => e.isFile() && e.name.endsWith(".d"));
-    auto output = File(output_name, "w");
+    auto output = File(buildNormalizedPath(output_dir, output_name), "w");
     auto bannedexp = regex("import {1,}inthebloom");
     string[] result;
 
