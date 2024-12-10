@@ -1,4 +1,4 @@
-module inthebloom.unordered_set.hash;
+module inthebloom.unordered_map.hash;
 
 import std.traits: Unqual;
 import std.random: uniform;

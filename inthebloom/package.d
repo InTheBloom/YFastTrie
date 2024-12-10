@@ -1,5 +1,5 @@
 module inthebloom;
 
-public import inthebloom.sorted_set;
-public import inthebloom.unordered_set;
+public import inthebloom.sorted_map;
+public import inthebloom.unordered_map;
 public import inthebloom.list;

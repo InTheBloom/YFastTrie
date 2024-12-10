@@ -1,4 +1,4 @@
-module inthebloom.unordered_set.interfaces;
+module inthebloom.unordered_map.interfaces;
 
 import std.typecons: Tuple;
 

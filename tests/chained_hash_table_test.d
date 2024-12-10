@@ -1,5 +1,5 @@
 unittest {
-    import inthebloom.unordered_set;
+    import inthebloom.unordered_map;
     import std;
     auto mp = new NonNegativeKeyChainedHashTable!(uint, int[])();
     const int N = 100;

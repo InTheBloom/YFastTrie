@@ -1,6 +1,6 @@
-module inthebloom.unordered_set.chained_hash_table;
+module inthebloom.unordered_map.chained_hash_table;
 
-import inthebloom.unordered_set.interfaces;
+import inthebloom.unordered_map.interfaces;
 import std.traits: Unqual;
 import std.typecons: Tuple, tuple;
 
@@ -8,7 +8,7 @@ class NonNegativeKeyChainedHashTable (K, V) : UnorderedMap!(K, V)
     if (is(Unqual!(K) == uint) ||
         is(Unqual!(K) == ulong))
 {
-    import inthebloom.unordered_set.hash;
+    import inthebloom.unordered_map.hash;
     import inthebloom.list;
     alias list = SinglyLinkedList!(Tuple!(immutable(K), V));
 
