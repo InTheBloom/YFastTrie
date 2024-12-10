@@ -1,23 +1,23 @@
 unittest {
     import inthebloom.unordered_set;
     import std;
-    auto mp = new NonNegativeKeyChainedHashTable!(Tuple!(uint, string))();
+    auto mp = new NonNegativeKeyChainedHashTable!(uint, int[])();
     const int N = 100;
     auto key = new uint[](N);
-    auto str = new string[](N);
+    auto arr = new int[][](N);
     foreach (i; 0..N) {
         key[i] = uniform(0, uint.max);
-        str[i] = iota(uniform(0, 10)).map!((x) => cast(char)('a' + uniform(0, 26))).array.idup;
+        arr[i] = iota(uniform(0, 10)).map!((x) => uniform(0, 20)).array;
     }
 
     foreach (i; 0..N) {
         assert(mp.length == i);
-        mp.insert(tuple(key[i], str[i]));
+        mp.insert(key[i], arr[i]);
         assert(mp.length == i + 1);
     }
 
     foreach (i; 0..N) {
-        assert((*mp.find(key[i]))[1] == str[i]);
+        assert((*mp.find(key[i]))[1] == arr[i]);
     }
 
     foreach (i; 0..N) {

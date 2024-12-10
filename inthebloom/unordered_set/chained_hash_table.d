@@ -2,26 +2,15 @@ module inthebloom.unordered_set.chained_hash_table;
 
 import inthebloom.unordered_set.interfaces;
 import std.traits: Unqual;
+import std.typecons: Tuple, tuple;
 
-class NonNegativeKeyChainedHashTable (T) : UnorderedSet!(T)
-    if (is(Unqual!(T) == uint) ||
-        is(Unqual!(T) == ulong) ||
-        is(Unqual!(typeof(T.init[0])) == uint) ||
-        is(Unqual!(typeof(T.init[0])) == ulong)
-        )
+class NonNegativeKeyChainedHashTable (K, V) : UnorderedMap!(K, V)
+    if (is(Unqual!(K) == uint) ||
+        is(Unqual!(K) == ulong))
 {
-    static if (is(Unqual!(T) == uint) ||
-               is(Unqual!(T) == ulong)) {
-        alias uintof = (T x) => x;
-    }
-    static if (is(Unqual!(typeof(T.init[0])) == uint) ||
-               is(Unqual!(typeof(T.init[0])) == ulong)) {
-        alias uintof = (T x) => x[0];
-    }
-
     import inthebloom.unordered_set.hash;
     import inthebloom.list;
-    alias list = SinglyLinkedList!(T);
+    alias list = SinglyLinkedList!(Tuple!(immutable(K), V));
 
     size_t size = 0;
     int table_size_bits = 0;
@@ -41,17 +30,17 @@ class NonNegativeKeyChainedHashTable (T) : UnorderedSet!(T)
 
         foreach (cell; table) {
             foreach (element_ptr; cell.ptr_input_range()) {
-                new_table[multiplicative_hash(uintof(*element_ptr), table_size_bits)].insert_back(*element_ptr);
+                new_table[multiplicative_hash((*element_ptr)[0], table_size_bits)].insert_back(*element_ptr);
             }
         }
         table = new_table;
     }
 
-    bool insert (T x) {
+    bool insert (immutable K x, V v) {
         // 見つかれば更新
-        auto ret = find(uintof(x));
+        auto ret = find(x);
         if (ret != null) {
-            *ret = x;
+            (*ret)[1] = v;
             return false;
         }
 
@@ -60,16 +49,16 @@ class NonNegativeKeyChainedHashTable (T) : UnorderedSet!(T)
             resize();
         }
 
-        table[multiplicative_hash(uintof(x), table_size_bits)].insert_back(x);
+        table[multiplicative_hash(x, table_size_bits)].insert_back(tuple(x, v));
         size++;
         return true;
     }
 
-    bool remove (typeof(uintof(T.init)) x) {
+    bool remove (immutable K x) {
         int index = multiplicative_hash(x, table_size_bits);
         auto r = table[index].ptr_input_range();
         while (!r.empty()) {
-            if (x == uintof(*r.front())) {
+            if (x == (*r.front())[0]) {
                 table[index].remove_kth(r.position);
                 size--;
                 return true;
@@ -79,11 +68,11 @@ class NonNegativeKeyChainedHashTable (T) : UnorderedSet!(T)
         return false;
     }
 
-    T* find (typeof(uintof(T.init)) x) {
+    Tuple!(immutable K, V)* find (immutable K x) {
         int index = multiplicative_hash(x, table_size_bits);
         auto r = table[index].ptr_input_range();
         foreach (element_ptr; r) {
-            if (x == uintof(*element_ptr)) return element_ptr;
+            if (x == (*element_ptr)[0]) return element_ptr;
         }
         return null;
     }
