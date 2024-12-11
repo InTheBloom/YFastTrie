@@ -1,3 +1,9 @@
+// 簡易テスト君
+// プロジェクトルートで
+// $ rdmd testrunner.d
+// とすることで、tests/*test.dをrdmdにより実行します。フラグは-unittest -mainが渡されます。
+// サブプロセスの戻り値が0でない場合、サブプロセスのstdoutとstderrの内容をメインプロセスのstdoutに流します。(なので、通るテストで出力を見たい場合、assertとかで落とす必要があります。)
+
 import std;
 
 string testfile_suffix = "test.d";

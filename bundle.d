@@ -1,4 +1,8 @@
 // ライブラリを1ファイルにまとめる君
+// rdmdが必要です。
+// プロジェクトルートで
+// $ rdmd bundle.d
+// を行うと、onlinejudge/combined.dが作られます。
 
 import std;
 
