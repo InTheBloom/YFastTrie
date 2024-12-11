@@ -234,8 +234,13 @@ class XFastTrie (K, V): SortedMap!(K, V)
                 hi = mid;
             }
         }
-        if (lo == 0) return null;
-        auto cur = (*hash_map[lo].find(x >> (wordsize - lo)))[1];
+        node_ptr cur;
+        if (lo == 0) {
+            cur = root;
+        }
+        else {
+            cur = (*hash_map[lo].find(x >> (wordsize - lo)))[1];
+        }
         if (lo == wordsize) return cur.value_ptr;
 
         // jumpがsuccessor
@@ -258,8 +263,13 @@ class XFastTrie (K, V): SortedMap!(K, V)
                 hi = mid;
             }
         }
-        if (lo == 0) return null;
-        auto cur = (*hash_map[lo].find(x >> (wordsize - lo)))[1];
+        node_ptr cur;
+        if (lo == 0) {
+            cur = root;
+        }
+        else {
+            cur = (*hash_map[lo].find(x >> (wordsize - lo)))[1];
+        }
         if (lo == wordsize) return cur.value_ptr;
 
         // jumpがsuccessor

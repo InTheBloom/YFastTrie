@@ -76,14 +76,15 @@ class Treap (K, V): SortedMap!(K, V)
     // 外部向け
     Treap!(K, V) split (K x) {
         auto v = internal_split(root, x);
-        root = v[0];
+        root = v[1];
         auto res = new Treap!(K, V)();
-        res.root = v[1];
+        res.root = v[0];
         return res;
     }
 
     void merge (Treap!(K, V) x) {
         root = internal_merge(root, x.root);
+        x.root = null;
     }
 
     bool insert (immutable K x, V v) {
