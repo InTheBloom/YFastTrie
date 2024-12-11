@@ -97,9 +97,17 @@ class YFastTrie (K, V): SortedMap!(K, V)
         return (*suc)[1].successor(x);
     }
 
+    // predecessorは単に仕事を投げればよいわけではないので注意
     Tuple!(immutable K, V)* predecessor (immutable K x) {
         auto suc = xft.successor(x);
-        if (suc == null) return null;
-        return (*suc)[1].predecessor(x);
+        if (suc != null) {
+            auto p = (*suc)[1].predecessor(x);
+            if (p != null) return p;
+        }
+        if (x == 0) return null;
+
+        auto pre = xft.predecessor(x - 1);
+        if (pre == null) return null;
+        return (*pre)[1].predecessor(x);
     }
 }
