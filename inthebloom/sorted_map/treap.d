@@ -82,6 +82,10 @@ class Treap (K, V): SortedMap!(K, V)
         return res;
     }
 
+    void merge (Treap!(K, V) x) {
+        root = internal_merge(root, x.root);
+    }
+
     bool insert (immutable K x, V v) {
         auto search = find(x);
         if (search != null) {
