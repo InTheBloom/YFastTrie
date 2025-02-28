@@ -2,13 +2,13 @@
 
 # 内容
 
-- ハッシュテーブルで利用するために少し特殊に組まれた単方向連結リスト(inthebloom/list/singly\_linked\_list.d)
+- 単方向連結リスト (inthebloom/list/singly\_linked\_list.d)
 - 乗算ハッシュ法 (inthebloom/unordered\_map/hash.d)
 - チェイン法 + 乗算ハッシュ法を用いたmap (inthebloom/unordered\_map/chained\_hash\_table.d)
 - successorクエリとpredecessorクエリをサポートするbinary trieによるmap (inthebloom/sorted\_map/binarytrie.d)
 - 乱数により定まる優先度を用いて高さの期待値を抑える平衡二分探索木treapによるmap (inthebloom/sorted\_map/treap.d)
-- 各層に存在するノードををハッシュで持ち、一致点の境界を二分探索することでO(log(logw))時間の検索をサポートするbinary trie (inthebloom/sorted\_map/xfasttrie.d)
-- X-Fast Trieと二分探索木の二次構造を用いることにより、空間O(N)と追加/削除O(log(log w))を達成するbinary trie (inthebloom/sorted\_map/yfasttrie.d)
+- 各層に存在するノードををハッシュで持ち、一致点の境界を二分探索することでO(log w)時間の検索をサポートするbinary trie (inthebloom/sorted\_map/xfasttrie.d)
+- X-Fast Trieと二分探索木の二次構造を用いることにより、空間O(N)と追加/削除O(log w)を達成するbinary trie (inthebloom/sorted\_map/yfasttrie.d)
 
 # その他ファイル
 - dubに依存しない簡易テストランナー (testrunner.d)
