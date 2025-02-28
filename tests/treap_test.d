@@ -33,8 +33,11 @@ unittest {
         key.randomShuffle;
         foreach (count, i; key.enumerate(0)) {
             assert(treap.length == len);
-            if (treap.remove(i)) len--;
-            assert(treap.length == len);
+            if (treap.remove(i)) {
+                writeln("treap.length: ", treap.length);
+                len--;
+            }
+            assert(treap.length == len, format("datasize: %s length: %s expected: %s", N, treap.length, len));
         }
     }
 }

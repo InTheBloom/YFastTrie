@@ -45,16 +45,12 @@ class Treap (K, V): SortedMap!(K, V)
 
         if (rt.priority < lt.priority) {
             lt.size += rt.size;
-            auto rsub = internal_split(rt, (*lt.value)[0]);
-            lt.left = internal_merge(lt.left, rsub[0]);
-            lt.right = internal_merge(lt.right, rsub[1]);
+            lt.right = internal_merge(lt.right, rt);
             return lt;
         }
 
         rt.size += lt.size;
-        auto lsub = internal_split(lt, (*rt.value)[0]);
-        rt.left = internal_merge(rt.left, lsub[0]);
-        rt.right = internal_merge(rt.right, lsub[1]);
+        rt.left = internal_merge(lt, rt.left);
         return rt;
     }
 
@@ -100,7 +96,10 @@ class Treap (K, V): SortedMap!(K, V)
         new_node.size = 1;
         new_node.value = new value(x, v);
 
-        root = internal_merge(root, new_node);
+        auto sp = internal_split(root, x);
+        root = internal_merge(sp[0], new_node);
+        root = internal_merge(root, sp[1]);
+
         return true;
     }
 
